@@ -6,16 +6,12 @@ Java 21, Maven, JUnit e integração com banco de dados.
 O objetivo é implementar um sistema simples de gerenciamento de tarefas (Todo),
 aplicando boas práticas de desenvolvimento, testes automatizados e organização de código.
 
---
-
 ## Tecnologias utilizadas:
 
 - Java 21 (LTS)
 - Maven (gerenciamento de dependências)
 - JUnit 5 (testes automatizados)
 - JDBC (acesso ao banco de dados)
-
---
 
 ## Como executar o projeto
 
@@ -31,8 +27,6 @@ cd todo-manager
 
 mvn clean install
 
---
-
 ## Testes
 
 O projeto utiliza **JUnit 5** para testes automatizados.
@@ -40,8 +34,6 @@ O projeto utiliza **JUnit 5** para testes automatizados.
 Para executar os testes:
 
 mvn test
-
---
 
 ## Melhorias futuras
 
