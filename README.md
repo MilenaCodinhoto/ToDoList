@@ -40,5 +40,5 @@ mvn test
 - Implementar API REST
 - Adicionar validações
 - Implementar camada de Service
-- Criar integração com banco de dados
+- Criar integração com banco de dados ✅
 - Adicionar mais testes unitários
