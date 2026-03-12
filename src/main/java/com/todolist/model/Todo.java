@@ -4,7 +4,7 @@ public class Todo {
     Long id;
     String titulo;
     String descricao;
-    Boolean concluida;
+    private boolean concluida = false;
 
     public Long getId() {
         return id;
@@ -30,7 +30,7 @@ public class Todo {
         this.descricao = descricao;
     }
 
-    public Boolean getConcluida() {
+    public Boolean isConcluida() {
         return concluida;
     }
 
