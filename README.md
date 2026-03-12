@@ -12,6 +12,7 @@ aplicando boas práticas de desenvolvimento, testes automatizados e organizaçã
 - Maven (gerenciamento de dependências)
 - JUnit 5 (testes automatizados)
 - JDBC (acesso ao banco de dados)
+- MySQL
 
 ## Como executar o projeto
 
