@@ -1,11 +1,13 @@
 package com.todolist.dao;
 
 import com.todolist.model.Todo;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class TodoDao {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/todos?useSSL=false&serverTimezone=UTC";
     private static final String DB_USER = "root";

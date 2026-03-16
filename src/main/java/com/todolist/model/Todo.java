@@ -6,6 +6,8 @@ public class Todo {
     String descricao;
     private boolean concluida = false;
 
+    public Todo() {}
+
     public Long getId() {
         return id;
     }
