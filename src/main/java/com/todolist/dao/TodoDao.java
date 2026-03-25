@@ -16,20 +16,17 @@ public class TodoDao {
     public void criar(Todo todo) {
         String sql = "INSERT INTO todo (titulo, descricao, concluida) VALUES (?, ?, ?)";
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-             pstmt.setString(1, todo.getTitulo());
-             pstmt.setString(2, todo.getDescricao());
-             pstmt.setBoolean(3, todo.isConcluida());
-             pstmt.executeUpdate();
-
-             ResultSet rs = pstmt.getGeneratedKeys();
-             if (rs.next()) {
+            pstmt.setString(1, todo.getTitulo());
+            pstmt.setString(2, todo.getDescricao());
+            pstmt.setBoolean(3, todo.isConcluida());
+            pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
                 todo.setId(rs.getLong(1));
-             }
+            }
         } catch (SQLException e) {
-             throw new RuntimeException("Erro ao criar todo: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao criar todo: " + e.getMessage(), e);
         }
     }
 
@@ -37,10 +34,8 @@ public class TodoDao {
         String sql = "DELETE FROM todo WHERE id = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
             pstmt.setLong(1, id);
             int linhas = pstmt.executeUpdate();
-
             if (linhas == 0) {
                 throw new RuntimeException("Todo com ID " + id + " não encontrado");
             }
@@ -53,29 +48,45 @@ public class TodoDao {
         String sql = "UPDATE todo SET titulo = ?, descricao = ?, concluida = ? WHERE id = ?";
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-             pstmt.setString(1, todo.getTitulo());
-             pstmt.setString(2, todo.getDescricao());
-             pstmt.setBoolean(3, todo.isConcluida());
-             pstmt.setLong(4, todo.getId());
-
-             int linhas = pstmt.executeUpdate();
-             if (linhas == 0) {
-                 throw new RuntimeException("Todo com ID " + todo.getId() + " não encontrado");
-             }
+            pstmt.setString(1, todo.getTitulo());
+            pstmt.setString(2, todo.getDescricao());
+            pstmt.setBoolean(3, todo.isConcluida());
+            pstmt.setLong(4, todo.getId());
+            int linhas = pstmt.executeUpdate();
+            if (linhas == 0) {
+                throw new RuntimeException("Todo com ID " + todo.getId() + " não encontrado");
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Erro ao atualizar todo ID " + todo.getId() + ": " + e.getMessage(), e);
         }
     }
 
+    public Todo buscarPorId(Long id) {
+        String sql = "SELECT * FROM todo WHERE id = ?";
+        try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setLong(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Todo todo = new Todo();
+                todo.setId(rs.getLong("id"));
+                todo.setTitulo(rs.getString("titulo"));
+                todo.setDescricao(rs.getString("descricao"));
+                todo.setConcluida(rs.getBoolean("concluida"));
+                return todo;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar todo ID " + id + ": " + e.getMessage(), e);
+        }
+        throw new RuntimeException("Todo com ID " + id + " não encontrado");
+    }
+
     public List<Todo> listar() {
         List<Todo> todos = new ArrayList<>();
         String sql = "SELECT * FROM todo ORDER BY id";
-
         try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-
             while (rs.next()) {
                 Todo todo = new Todo();
                 todo.setId(rs.getLong("id"));

@@ -21,6 +21,18 @@ public class TodoController {
         return "index";
     }
 
+    @GetMapping("/deletar")
+    public String deletar(@RequestParam("id") Long id) {
+        todoDao.deletar(id);
+        return "redirect:/";
+    }
+
+    @GetMapping("/editar")
+    public String editar(@RequestParam("id") Long id, Model model) {
+        model.addAttribute("todo", todoDao.buscarPorId(id));
+        return "editar";
+    }
+
     @PostMapping("/add")
     public String add(@RequestParam("titulo") String titulo) {
         Todo todo = new Todo();
@@ -28,6 +40,17 @@ public class TodoController {
         todo.setDescricao("");
         todo.setConcluida(false);
         todoDao.criar(todo);
+        return "redirect:/";
+    }
+
+    @PostMapping("/atualizar")
+    public String atualizar(@RequestParam("id") Long id, @RequestParam("titulo") String titulo, @RequestParam("descricao") String descricao) {
+        Todo todo = new Todo();
+        todo.setId(id);
+        todo.setTitulo(titulo);
+        todo.setDescricao(descricao);
+        todo.setConcluida(false);
+        todoDao.atualizar(todo);
         return "redirect:/";
     }
 }
